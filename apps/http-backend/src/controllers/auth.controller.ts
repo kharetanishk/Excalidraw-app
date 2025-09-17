@@ -1,9 +1,4 @@
-type authregister = () => void;
-type authloginn = () => void;
-
-export const registerUser: authregister = () => {
-  console.log("register the user");
-};
-export const loginUser: authloginn = () => {
-  console.log("register the user");
-};
+import { Request, Response } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { createUserSchema, signInSchema } from "@repo/common/types";
