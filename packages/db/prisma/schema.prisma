@@ -1,7 +1,5 @@
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -10,26 +8,30 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  passwordHash  String
-  username      String   @unique
-  photo         String?
-  rooms         Room[]          // rooms created by this user
-  chats         Chat[]
-  participants  RoomParticipant[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           String            @id @default(uuid())
+  email        String            @unique
+  passwordHash String
+  username     String            @unique
+  photo        String?
+  rooms        Room[] // rooms created by this user
+  chats        Chat[]
+  participants RoomParticipant[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
 }
 
 model Room {
-  id            Int      @id @default(autoincrement())
-  slug          String   @unique
-  name          String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  adminId       String
-  admin         User     @relation(fields: [adminId], references: [id])
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  adminId   String
+  admin     User     @relation(fields: [adminId], references: [id])
+
+  // 🔹 Add back-relations
+  chats        Chat[]
+  participants RoomParticipant[]
 }
 
 model Chat {
@@ -45,11 +47,10 @@ model Chat {
 }
 
 model RoomParticipant {
-  id        Int      @id @default(autoincrement())
-  userId    String
-  roomId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  room      Room     @relation(fields: [roomId], references: [id])
-  joinedAt  DateTime @default(now())
+  id       Int      @id @default(autoincrement())
+  userId   String
+  roomId   Int
+  user     User     @relation(fields: [userId], references: [id])
+  room     Room     @relation(fields: [roomId], references: [id])
+  joinedAt DateTime @default(now())
 }
-

@@ -1,9 +1,12 @@
 {
-  "name": "db",
+  "name": "@repo/db",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "exports": {
+    "./client": "./src/index.ts"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*"
@@ -13,6 +16,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "6.16.2",
+    "@types/node": "^22.15.3",
     "prisma": "^6.16.2"
   }
 }

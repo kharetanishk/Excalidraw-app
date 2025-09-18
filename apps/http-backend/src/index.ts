@@ -1,10 +1,15 @@
 import express from "express";
-import { JWT_SECRET } from "@repo/backend-common/config";
-import authroutes from "./routes/auth.route";
-import { CreateUserSchema } from "@repo/common/types";
+import cors from "cors";
 
+const port = 4000;
 const app = express();
-console.log(JWT_SECRET);
-app.use("/api/auth", authroutes);
 
-const data = CreateUserSchema.safeParse;
+//these are the middleware
+app.use(express.json());
+app.use(cors());
+
+//routes of the application
+
+app.listen(port, () => {
+  console.log(`the app is listening to http://localhost:${port}`);
+});
