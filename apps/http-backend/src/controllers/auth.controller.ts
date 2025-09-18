@@ -64,3 +64,7 @@ export const signin = async (
     next(err);
   }
 };
+
+export const check = (req: Request, res: Response) => {
+  res.send("hello world");
+};
