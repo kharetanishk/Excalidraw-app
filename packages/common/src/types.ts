@@ -23,7 +23,7 @@ export const createRoomSchema = z.object({
     .min(3, "Room name must be at least 3 characters long")
     .max(50, "Room name must be at most 50 characters long"),
   isPrivate: z.boolean().default(false),
-  maxParticipants: z
+  maxParticipants: z.coerce
     .number()
     .min(2, "At least 2 participants required")
     .max(50, "Maximum 50 participants allowed"),

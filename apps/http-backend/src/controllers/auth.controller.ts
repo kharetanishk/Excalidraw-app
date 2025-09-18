@@ -33,3 +33,34 @@ export const signup = async (
     next(err);
   }
 };
+
+export const signin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await prismaClient.user.findUnique({
+      where: { email },
+    });
+
+    // console.log(user);
+
+    if (!user) return res.status(401).json({ message: "Invalid credentials" });
+
+    const valid = await bcrypt.compare(password, user.passwordHash);
+    if (!valid) return res.status(401).json({ message: "Invalid credentials" });
+    // console.log(valid);
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      expiresIn: EXPIRES_IN,
+    });
+    return res.status(200).json({
+      user: { id: user.id, email: user.email, username: user.username },
+      token,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
