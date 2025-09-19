@@ -9,6 +9,15 @@ export const addSocketForUser = (userId: string, socketId: string) => {
   userToSockets.set(userId, set);
 };
 
+export const getSocketCountForUser = (userId: string) => {
+  const s = userToSockets.get(userId);
+  return s ? s.size : 0;
+};
+
+export const getUserSockets = (userId: string) => {
+  return userToSockets.get(userId) ?? new Set<string>();
+};
+
 export function removeSocket(socketId: string) {
   const userId = socketToUser.get(socketId);
   if (!userId) return;
@@ -17,6 +26,7 @@ export function removeSocket(socketId: string) {
   if (s) {
     s.delete(socketId);
     if (s.size === 0) userToSockets.delete(userId);
+    else userToSockets.set(userId, s);
   }
 
   for (const [roomKey, sockets] of roomToSockets.entries()) {
