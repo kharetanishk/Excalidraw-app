@@ -8,21 +8,21 @@ export const createRoom = async (
   next: NextFunction
 ) => {
   try {
-    const user = (req as any).user;
+    const userId = (req as any).userId;
     const { name, isPrivate, maxParticipants } = req.body;
 
     const room = await prismaClient.room.create({
       data: {
         name,
         slug: nanoid(10),
-        adminId: user.id,
+        adminId: userId,
         isPrivate,
         maxParticipants,
       },
     });
 
     await prismaClient.roomParticipant.create({
-      data: { userId: user.id, roomId: room.id },
+      data: { userId, roomId: room.id },
     });
 
     return res.status(201).json({ room });

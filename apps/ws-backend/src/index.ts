@@ -1,9 +1,17 @@
-import { WebSocketServer } from "ws";
+import http from "http";
+import { Server } from "socket.io";
+// import { registerSocketHandlers } from "./socket";
 
-const wss = new WebSocketServer({ port: 8080 });
+const httpServer = http.createServer();
+const io = new Server(httpServer, {
+  cors: { origin: true },
+  pingInterval: 25000,
+  pingTimeout: 60000,
+});
 
-wss.on("connection", function connection(ws) {
-  ws.on("message", function message(data) {
-    ws.send("hello world");
-  });
+// Register all handlers
+// registerSocketHandlers(io);
+
+httpServer.listen(8000, () => {
+  console.log(`WS server listening on port 8000 `);
 });
