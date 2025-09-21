@@ -30,3 +30,37 @@ export const createRoom = async (
     next(err);
   }
 };
+
+export const joinRoom = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = (req as any).userId;
+    const { roomId } = req.body;
+
+    if (!roomId) {
+      return res.status(400).json({ error: "roomId is required" });
+    }
+
+    const room = await prismaClient.room.findUnique({ where: { id: roomId } });
+    if (!room) {
+      return res.status(404).json({ error: "Room not found" });
+    }
+
+    const existing = await prismaClient.roomParticipant.findFirst({
+      where: { userId, roomId },
+    });
+
+    if (!existing) {
+      await prismaClient.roomParticipant.create({
+        data: { userId, roomId },
+      });
+    }
+
+    return res.status(200).json({ message: "Joined room", roomId });
+  } catch (err) {
+    next(err);
+  }
+};

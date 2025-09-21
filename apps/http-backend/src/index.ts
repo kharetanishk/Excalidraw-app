@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/auth", authroutes);
-app.use("/api/room", roomRoutes);
+app.use("/api/rooms", roomRoutes);
 app.use(errorHandler);
 
 app.listen(port, () => {
