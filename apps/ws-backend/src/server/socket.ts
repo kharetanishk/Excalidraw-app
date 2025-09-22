@@ -9,3 +9,5 @@ export function registerSocketHandlers(io: Server) {
     connectionHandler(io, socket);
   });
 }
+
+//we are now at the testing phase of ws-backend , then we will add more events
